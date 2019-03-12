@@ -1,0 +1,76 @@
+{
+  "name": "test",
+  "version": "1.0.0",
+  "description": "Give some description to this project",
+  "main": "lib/index",
+  "scripts": {
+    "test": "jest --verbose --runInBand",
+    "clean": "rm -rf lib coverage",
+    "prettier": "prettier --write '{.,{src,test}/**}/*.{js,jsx,ts,tsx,json,md}'",
+    "prettier:check": "prettier --check '{.,{src,test}/**}/*.{js,jsx,ts,tsx,json,md}'",
+    "tslint": "tslint-config-prettier-check ./tslint.json",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --runInBand",
+    "start": "'ts-node' src/index.ts",
+    "build": "tsc --pretty -p .",
+    "build:watch": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
+    "update": "ncu -u && npm i"
+  },
+  "keywords": [],
+  "author": "Nelson Gomes <nelson.gomes@pipedrive.com>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/jest": "^24.0.9",
+    "@types/node": "^11.10.4",
+    "jest": "^24.1.0",
+    "nodemon": "^1.18.10",
+    "prettier": "^1.16.4",
+    "ts-jest": "^24.0.0",
+    "ts-node": "^8.0.2",
+    "tslint": "^5.13.1",
+    "tslint-config-prettier": "^1.18.0",
+    "tslint-eslint-rules": "^5.4.0",
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.3.3333"
+  },
+  "types": "lib/index",
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/yourrepo.git"
+  },
+  "engines": {
+    "node": ">=10",
+    "npm": ">=5.5 <6"
+  },
+  "jest": {
+    "roots": [
+      "<rootDir>/test"
+    ],
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.[tj]sx?$",
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "functions": 50,
+        "lines": 50,
+        "statements": 50
+      }
+    },
+    "coverageDirectory": "test-coverage/",
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}
