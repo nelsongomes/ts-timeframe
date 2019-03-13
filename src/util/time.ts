@@ -146,7 +146,7 @@ export function now(): TimelineTimestamp {
  * Delays execution a few milliseconds
  * @param milliseconds
  */
-export function delay(milliseconds: number) {
+export async function delay(milliseconds: number): Promise<void> {
   return new Promise<void>(resolve => {
     setTimeout(resolve, milliseconds);
   });

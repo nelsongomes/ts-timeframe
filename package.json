@@ -72,5 +72,8 @@
       "json",
       "node"
     ]
+  },
+  "dependencies": {
+    "prom-client": "^11.2.1"
   }
 }

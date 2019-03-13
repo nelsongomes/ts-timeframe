@@ -24,16 +24,17 @@ describe('Timeline', () => {
       });
 
       test('properly ended, with unit seconds', async () => {
-        const timeline = new Timeline(ITimelineUnit.Seconds);
+        const timeline = new Timeline(ITimelineUnit.Milliseconds, 0);
 
+        await time.delay(50);
         expect(timeline instanceof Timeline).toBe(true);
         expect(timeline.count()).toBe(0);
 
         // terminate timeline
         timeline.end();
 
-        expect(timeline.duration().duration).toBeGreaterThan(0);
-        expect(timeline.duration().unit).toBe(ITimelineUnit.Seconds);
+        expect(timeline.duration().duration).toBeGreaterThan(50);
+        expect(timeline.duration().unit).toBe(ITimelineUnit.Milliseconds);
       });
 
       test('properly ended, with unit milliseconds', async () => {
@@ -191,7 +192,7 @@ describe('Timeline', () => {
         .mockReturnValueOnce([0, 299999]); // timeline end
 
       const timeline = new Timeline(ITimelineUnit.Microseconds);
-      const event = timeline.startEvent();
+      const event = timeline.startEvent(['database']);
       event.end();
 
       timeline.end();
