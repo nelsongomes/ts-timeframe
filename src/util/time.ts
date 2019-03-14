@@ -9,29 +9,6 @@ import {
 // #region delta functions
 
 /**
- * Method returns time difference expressed as a number in the unit selected (with floating point precision)
- * @param start time
- * @param end time
- * @param unit unit to express result
- */
-export function getDeltaUnits(
-  start: TimelineTimestamp,
-  end: TimelineTimestamp,
-  unit: ITimelineUnit
-): number {
-  switch (unit) {
-    case ITimelineUnit.Seconds:
-      return getDeltaSeconds(start, end);
-    case ITimelineUnit.Milliseconds:
-      return getDeltaMilliseconds(start, end);
-    case ITimelineUnit.Microseconds:
-      return getDeltaMicroseconds(start, end);
-    case ITimelineUnit.Nanoseconds:
-      return getDeltaNanoseconds(start, end);
-  }
-}
-
-/**
  * Method returns time difference expressed as a string in the unit selected, with n decimal places
  * @param start time
  * @param end time
@@ -44,7 +21,7 @@ export function getDeltaUnitsReadable(
   unit: ITimelineUnit,
   decimals: number
 ): string {
-  const formatted = ` ${unit}(s)`;
+  const formatted = ` ${unit}`;
 
   switch (unit) {
     case ITimelineUnit.Seconds:
@@ -122,7 +99,7 @@ export function delta(
   const result: TimelineTimestamp = [end[0] - start[0], end[1] - start[1]];
 
   if (result[1] < 0) {
-    result[0]++;
+    result[0]--;
     result[1] = result[1] + 1e9;
   }
 
