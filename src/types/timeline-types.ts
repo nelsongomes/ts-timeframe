@@ -5,6 +5,11 @@ export enum ITimelineUnit {
   Seconds = 's'
 }
 
+export enum ITimelineLabelMatch {
+  Any = 'any',
+  All = 'all'
+}
+
 export interface ITimelineDuration {
   unit: ITimelineUnit;
   duration: number;
@@ -12,11 +17,20 @@ export interface ITimelineDuration {
 
 export interface ITimelineSettings {
   precision: number;
-  defaultUnit: ITimelineUnit;
+  unit: ITimelineUnit;
+  slowEvents?: ITimelineRule[];
 }
 
 export interface ITimelineConfig {
   defaultLabels: [string];
 }
 
+export interface ITimelineRule {
+  duration: number;
+  labels: [string];
+  labelMatch: ITimelineLabelMatch;
+  callback: Callback<{ message: string; detail: any }>;
+}
+
+export type Callback<T> = (err: Error | null, reply: T) => void;
 export type TimelineTimestamp = [number, number]; // [seconds, nanoseconds]

@@ -17,7 +17,7 @@ import { TimelineEvent } from './timeline-event';
 
 // Timeline configuration
 const settings: ITimelineSettings = {
-  defaultUnit: ITimelineUnit.Milliseconds,
+  unit: ITimelineUnit.Milliseconds,
   precision: 3
 };
 
@@ -50,7 +50,7 @@ export class Timeline {
    * @param defaultPrecision
    */
   constructor(
-    defaultUnit: ITimelineUnit = settings.defaultUnit,
+    defaultUnit: ITimelineUnit = settings.unit,
     defaultPrecision: number = settings.precision
   ) {
     // copy settings

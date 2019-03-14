@@ -1,10 +1,22 @@
 import { Timeline } from '../../src/classes/timeline';
-import { ITimelineUnit } from '../../src/types/timeline-types';
+import {
+  ITimelineLabelMatch,
+  ITimelineSettings,
+  ITimelineUnit
+} from '../../src/types/timeline-types';
 import * as time from '../../src/util/time';
 
-const initParameters = {
-  defaultUnit: ITimelineUnit.Microseconds,
-  precision: 5
+const initParameters: ITimelineSettings = {
+  precision: 5,
+  slowEvents: [
+    {
+      callback: jest.fn(),
+      duration: 100,
+      labelMatch: ITimelineLabelMatch.All,
+      labels: ['database']
+    }
+  ],
+  unit: ITimelineUnit.Microseconds
 };
 
 describe('Timeline', () => {
@@ -24,21 +36,7 @@ describe('Timeline', () => {
       });
 
       test('properly ended, with unit seconds', async () => {
-        const timeline = new Timeline(ITimelineUnit.Milliseconds, 0);
-
-        await time.delay(50);
-        expect(timeline instanceof Timeline).toBe(true);
-        expect(timeline.count()).toBe(0);
-
-        // terminate timeline
-        timeline.end();
-
-        expect(timeline.duration().duration).toBeGreaterThan(50);
-        expect(timeline.duration().unit).toBe(ITimelineUnit.Milliseconds);
-      });
-
-      test('properly ended, with unit milliseconds', async () => {
-        const timeline = new Timeline(ITimelineUnit.Milliseconds);
+        const timeline = new Timeline(ITimelineUnit.Seconds, 0);
 
         expect(timeline instanceof Timeline).toBe(true);
         expect(timeline.count()).toBe(0);
@@ -47,6 +45,21 @@ describe('Timeline', () => {
         timeline.end();
 
         expect(timeline.duration().duration).toBeGreaterThan(0);
+        expect(timeline.duration().unit).toBe(ITimelineUnit.Seconds);
+      });
+
+      test('properly ended, with unit milliseconds', async () => {
+        const timeline = new Timeline(ITimelineUnit.Milliseconds);
+
+        await time.delay(50);
+
+        expect(timeline instanceof Timeline).toBe(true);
+        expect(timeline.count()).toBe(0);
+
+        // terminate timeline
+        timeline.end();
+
+        expect(timeline.duration().duration).toBeGreaterThan(50);
         expect(timeline.duration().unit).toBe(ITimelineUnit.Milliseconds);
       });
 
@@ -124,25 +137,25 @@ describe('Timeline', () => {
 
   describe('initialization', () => {
     test('should work first init', async () => {
-      Timeline.init({ defaultUnit: ITimelineUnit.Microseconds, precision: 5 });
+      Timeline.init(initParameters);
 
       const timeline = new Timeline();
       timeline.end();
 
       // check init parameters set
-      expect(Timeline.getDefaults()).toEqual(initParameters);
+      expect(Timeline.getDefaults()).toMatchObject(initParameters);
     });
 
     test('should fail second init', async () => {
       try {
         Timeline.init({
-          defaultUnit: ITimelineUnit.Microseconds,
-          precision: 5
+          precision: 5,
+          unit: ITimelineUnit.Microseconds
         });
         fail();
       } catch (e) {
         // check init parameters unchanged
-        expect(Timeline.getDefaults()).toEqual(initParameters);
+        expect(Timeline.getDefaults()).toMatchObject(initParameters);
       }
     });
   });
