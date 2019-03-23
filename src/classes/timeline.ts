@@ -17,8 +17,8 @@ import { TimelineEvent } from './timeline-event';
 
 // Timeline configuration
 const settings: ITimelineSettings = {
-  unit: ITimelineUnit.Milliseconds,
-  precision: 3
+  precision: 3,
+  unit: ITimelineUnit.Milliseconds
 };
 
 export class Timeline {
@@ -66,6 +66,9 @@ export class Timeline {
     if (!this.timeLineEvents[0].getEnd()) {
       this.timeLineEvents[0].end();
     }
+
+    // check if there are any slow calls (this is done here to minimize performance impacts)
+    this.executeSlownessCallbacks();
   }
 
   public duration(): ITimelineDuration {
@@ -115,12 +118,11 @@ export class Timeline {
     let i = 0;
     for (const iEvent of this.timeLineEvents) {
       if (i > 0) {
-        const end = iEvent.getEnd();
+        const duration = iEvent.getDurationRaw();
 
-        if (end) {
-          const d = delta(iEvent.getStart(), end);
-          sum[0] += d[0];
-          sum[1] += d[1];
+        if (duration) {
+          sum[0] += duration[0];
+          sum[1] += duration[1];
 
           while (sum[1] > 1e9) {
             sum[0]++;
@@ -211,5 +213,33 @@ export class Timeline {
    */
   private innerStart() {
     this.timeLineEvents.push(new TimelineEvent([]));
+  }
+
+  private executeSlownessCallbacks(): void {
+    // if we have slow event rules and events
+    if (settings.slowEvents && settings.slowEvents.length && this.count()) {
+      for (let i = 1; i < this.timeLineEvents.length; i++) {
+        const currentEvent = this.timeLineEvents[i];
+
+        // check all rules
+        for (const slowEvent of settings.slowEvents) {
+          const eventDuration = currentEvent.getDuration(this.unit);
+
+          if (
+            slowEvent.rule.duration > 0 &&
+            eventDuration &&
+            eventDuration >= slowEvent.rule.duration &&
+            slowEvent.rule.matchAnylabel.some(member => {
+              return currentEvent.getLabels().includes(member);
+            })
+          ) {
+            slowEvent.callback(null, {
+              ...slowEvent.rule,
+              unit: settings.unit
+            });
+          }
+        }
+      }
+    }
   }
 }

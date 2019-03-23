@@ -1,6 +1,5 @@
 import { Timeline } from '../../src/classes/timeline';
 import {
-  ITimelineLabelMatch,
   ITimelineSettings,
   ITimelineUnit
 } from '../../src/types/timeline-types';
@@ -10,10 +9,14 @@ const initParameters: ITimelineSettings = {
   precision: 5,
   slowEvents: [
     {
-      callback: jest.fn(),
-      duration: 100,
-      labelMatch: ITimelineLabelMatch.All,
-      labels: ['database']
+      callback: jest.fn(() => {
+        /* some action */
+      }),
+      rule: {
+        duration: 100,
+        matchAnylabel: ['database'],
+        message: 'Database too slow'
+      }
     }
   ],
   unit: ITimelineUnit.Microseconds
@@ -160,9 +163,77 @@ describe('Timeline', () => {
     });
   });
 
+  describe('slow events must trigger a callback on end()', () => {
+    beforeEach(() => {
+      jest.clearAllMocks();
+    });
+
+    test('no events', async () => {
+      const spy = jest
+        .spyOn(time, 'now')
+        .mockReturnValueOnce([0, 0]) // first call
+        .mockReturnValueOnce([0, 99999]); // second call
+
+      const timeline = new Timeline();
+      timeline.end();
+
+      if (initParameters.slowEvents && initParameters.slowEvents[0]) {
+        expect(initParameters.slowEvents[0].callback).toBeCalledTimes(0);
+      } else {
+        fail();
+      }
+      expect(spy).toBeCalledTimes(2);
+    });
+
+    test('slow event, not matching label', async () => {
+      const spy = jest
+        .spyOn(time, 'now')
+        .mockReturnValueOnce([0, 0])
+        .mockReturnValueOnce([0, 99999])
+        .mockReturnValueOnce([0, 199999])
+        .mockReturnValueOnce([0, 999999]);
+
+      const timeline = new Timeline();
+      const event = timeline.startEvent(['wronglabel']);
+      event.end();
+
+      timeline.end();
+
+      if (initParameters.slowEvents && initParameters.slowEvents[0]) {
+        expect(initParameters.slowEvents[0].callback).toBeCalledTimes(0);
+      } else {
+        fail();
+      }
+      expect(spy).toBeCalledTimes(4);
+    });
+
+    test('slow event, matching label', async () => {
+      const spy = jest
+        .spyOn(time, 'now')
+        .mockReturnValueOnce([0, 0])
+        .mockReturnValueOnce([0, 99999])
+        .mockReturnValueOnce([0, 199999])
+        .mockReturnValueOnce([0, 999999]);
+
+      const timeline = new Timeline();
+      const event = timeline.startEvent(['database', 'mysql']);
+      event.end();
+
+      timeline.end();
+
+      if (initParameters.slowEvents && initParameters.slowEvents[0]) {
+        expect(initParameters.slowEvents[0].callback).toBeCalledTimes(1);
+      } else {
+        fail();
+      }
+      expect(spy).toBeCalledTimes(4);
+    });
+  });
+
   describe('should generate Timeline analytics', () => {
     beforeEach(() => {
       jest.clearAllMocks();
+      jest.resetAllMocks();
     });
 
     test('with no events', async () => {

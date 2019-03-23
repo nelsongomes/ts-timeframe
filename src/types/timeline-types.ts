@@ -5,11 +5,6 @@ export enum ITimelineUnit {
   Seconds = 's'
 }
 
-export enum ITimelineLabelMatch {
-  Any = 'any',
-  All = 'all'
-}
-
 export interface ITimelineDuration {
   unit: ITimelineUnit;
   duration: number;
@@ -18,7 +13,7 @@ export interface ITimelineDuration {
 export interface ITimelineSettings {
   precision: number;
   unit: ITimelineUnit;
-  slowEvents?: ITimelineRule[];
+  slowEvents?: ITimelineRuleInstance[];
 }
 
 export interface ITimelineConfig {
@@ -27,9 +22,12 @@ export interface ITimelineConfig {
 
 export interface ITimelineRule {
   duration: number;
-  labels: [string];
-  labelMatch: ITimelineLabelMatch;
-  callback: Callback<{ message: string; detail: any }>;
+  matchAnylabel: [string];
+  message: string;
+}
+export interface ITimelineRuleInstance {
+  rule: ITimelineRule;
+  callback: Callback<ITimelineRule & { unit: ITimelineUnit }>;
 }
 
 export type Callback<T> = (err: Error | null, reply: T) => void;

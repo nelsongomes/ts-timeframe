@@ -1,10 +1,4 @@
 import { ITimelineUnit, TimelineTimestamp } from '../types/timeline-types';
-import {
-  getReadableDeltaMicroseconds,
-  getReadableDeltaMilliseconds,
-  getReadableDeltaNanoseconds,
-  getReadableDeltaSeconds
-} from './time-format';
 
 // #region delta functions
 
@@ -21,17 +15,23 @@ export function getDeltaUnitsReadable(
   unit: ITimelineUnit,
   decimals: number
 ): string {
-  const formatted = ` ${unit}`;
+  return getDeltaUnits(start, end, unit).toFixed(decimals) + ` ${unit}`;
+}
 
+export function getDeltaUnits(
+  start: TimelineTimestamp,
+  end: TimelineTimestamp,
+  unit: ITimelineUnit
+): number {
   switch (unit) {
     case ITimelineUnit.Seconds:
-      return getReadableDeltaSeconds(start, end, decimals) + formatted;
+      return getDeltaSeconds(start, end);
     case ITimelineUnit.Milliseconds:
-      return getReadableDeltaMilliseconds(start, end, decimals) + formatted;
+      return getDeltaMilliseconds(start, end);
     case ITimelineUnit.Microseconds:
-      return getReadableDeltaMicroseconds(start, end, decimals) + formatted;
+      return getDeltaMicroseconds(start, end);
     case ITimelineUnit.Nanoseconds:
-      return getReadableDeltaNanoseconds(start, end, decimals) + formatted;
+      return getDeltaNanoseconds(start, end);
   }
 }
 
