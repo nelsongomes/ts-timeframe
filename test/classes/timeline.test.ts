@@ -17,6 +17,16 @@ const initParameters: ITimelineSettings = {
         matchAnylabel: ['database'],
         message: 'Database too slow'
       }
+    },
+    {
+      callback: jest.fn(() => {
+        /* some action */
+      }),
+      rule: {
+        duration: 3000,
+        matchAnylabel: ['api'],
+        message: 'Api calls too slow'
+      }
     }
   ],
   unit: ITimelineUnit.Microseconds
@@ -276,7 +286,7 @@ describe('Timeline', () => {
         .mockReturnValueOnce([0, 299999]); // timeline end
 
       const timeline = new Timeline(ITimelineUnit.Microseconds);
-      const event = timeline.startEvent(['database']);
+      const event = timeline.startEvent(['database', 'mysql']);
       event.end();
 
       timeline.end();

@@ -7,8 +7,8 @@ Grand duration: 1000299.99900 µs
 Events duration: 1000099.99900 µs
 
 ***** Event Detail for this Timeline *****
-#1: [started: 0.00000 µs, duration: 999999.99900 µs]
-#2: [started: 99.99900 µs, duration: 100.00000 µs]
+#1: [started: 0.00000 µs, duration: 999999.99900 µs, labels: ]
+#2: [started: 99.99900 µs, duration: 100.00000 µs, labels: ]
 "
 `;
 
@@ -19,7 +19,7 @@ Grand duration: 299.99900 µs
 Events duration: 100.00000 µs
 
 ***** Event Detail for this Timeline *****
-#1: [started: 99.99900 µs, duration: 100.00000 µs]
+#1: [started: 99.99900 µs, duration: 100.00000 µs, labels: database,mysql]
 "
 `;
 

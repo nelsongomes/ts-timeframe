@@ -200,7 +200,7 @@ export class Timeline {
           this.timeLineEvents[i].getEnd() as TimelineTimestamp,
           this.unit,
           this.precision
-        )}]\n`;
+        )}, labels: ${this.timeLineEvents[i].getLabels().join()}]\n`;
       }
       i++;
     }
