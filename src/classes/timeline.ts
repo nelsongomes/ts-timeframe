@@ -136,12 +136,12 @@ export class Timeline {
     return sum;
   }
 
-  public startEvent(labels: string[] = []): TimelineEvent {
+  public startEvent(labels: string[] = [], details?: any): TimelineEvent {
     if (this.timeLineEvents[0].getEnd()) {
       throw new Error('Cannot start more events after timeline.end()');
     }
 
-    const event: TimelineEvent = new TimelineEvent(labels);
+    const event: TimelineEvent = new TimelineEvent(labels, details);
 
     // add event to timeline
     this.timeLineEvents.push(event);
@@ -215,6 +215,9 @@ export class Timeline {
     this.timeLineEvents.push(new TimelineEvent([]));
   }
 
+  /**
+   * Execute all callbacks that match a given rule
+   */
   private executeSlownessCallbacks(): void {
     // if we have slow event rules and events
     if (settings.slowEvents && settings.slowEvents.length && this.count()) {
@@ -235,6 +238,7 @@ export class Timeline {
           ) {
             slowEvent.callback(null, {
               ...slowEvent.rule,
+              details: currentEvent.getDetails(),
               unit: settings.unit
             });
           }

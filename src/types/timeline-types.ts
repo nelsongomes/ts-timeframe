@@ -27,7 +27,7 @@ export interface ITimelineRule {
 }
 export interface ITimelineRuleInstance {
   rule: ITimelineRule;
-  callback: Callback<ITimelineRule & { unit: ITimelineUnit }>;
+  callback: Callback<ITimelineRule & { unit: ITimelineUnit; details: any }>;
 }
 
 export type Callback<T> = (err: Error | null, reply: T) => void;

@@ -108,10 +108,6 @@ export function delta(
 // #endregion
 
 // #region help functions
-export function round(value: number, places: number): number {
-  return value * Math.pow(10, places) * Math.pow(10, -places);
-}
-
 /**
  * Returns current time
  */
@@ -128,5 +124,4 @@ export async function delay(milliseconds: number): Promise<void> {
     setTimeout(resolve, milliseconds);
   });
 }
-
 // #endregion

@@ -5,10 +5,12 @@ export class TimelineEvent {
   private startTime: TimelineTimestamp;
   private endTime?: TimelineTimestamp;
   private labels: string[];
+  private details: any;
 
-  constructor(labels: string[]) {
+  constructor(labels: string[], details?: any) {
     this.startTime = now();
     this.labels = labels;
+    this.details = details;
   }
 
   public getStart(): TimelineTimestamp {
@@ -21,6 +23,10 @@ export class TimelineEvent {
 
   public getLabels(): string[] {
     return this.labels;
+  }
+
+  public getDetails(): any {
+    return this.details;
   }
 
   public end(): void {
