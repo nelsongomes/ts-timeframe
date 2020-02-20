@@ -9,8 +9,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Run a one-line script
-      run: echo Hello, world!
+    - name: Installing packages
+      run: npm i
     - name: Run a multi-line script
       run: |
         echo Add other actions to build,
