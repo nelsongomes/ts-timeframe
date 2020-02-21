@@ -1,8 +1,9 @@
 {
   "name": "@nelsongomes/ts-timeframe",
-  "version": "0.1.0",
-  "description": "Benchmark framework to collect code time metrics and excel in speed",
-  "main": "lib/index",
+  "version": "0.1.2",
+  "description": "Benchmark framework to collect code time metrics and excel in precision.",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
     "test": "jest --verbose --runInBand",
     "clean": "rm -rf lib coverage",
@@ -16,7 +17,11 @@
     "build:watch": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
     "update": "ncu -u && npm i"
   },
-  "keywords": [],
+  "keywords": [
+    "benchmark",
+    "backend",
+    "typescript"
+  ],
   "author": "Nelson Gomes <nelson.ricardo.gomes@gmail.com>",
   "license": "ISC",
   "devDependencies": {
@@ -33,13 +38,9 @@
     "tslint-react": "4.2.0",
     "typescript": "3.7.5"
   },
-  "types": "lib/index",
-  "files": [
-    "lib"
-  ],
   "repository": {
     "type": "git",
-    "url": "git@github.com:nelsongomes/ts-timeframe.git"
+    "url": "git+https://github.com/nelsongomes/ts-timeframe.git"
   },
   "engines": {
     "node": ">=10",
