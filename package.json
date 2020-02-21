@@ -1,5 +1,5 @@
 {
-  "name": "ts-timeframe",
+  "name": "@nelsongomes/ts-timeframe",
   "version": "0.1.0",
   "description": "Benchmark framework to collect code time metrics and excel in speed",
   "main": "lib/index",
@@ -17,7 +17,7 @@
     "update": "ncu -u && npm i"
   },
   "keywords": [],
-  "author": "Nelson Gomes <nelson.gomes@pipedrive.com>",
+  "author": "Nelson Gomes <nelson.ricardo.gomes@gmail.com>",
   "license": "ISC",
   "devDependencies": {
     "@types/jest": "25.1.3",
@@ -73,7 +73,5 @@
       "node"
     ]
   },
-  "dependencies": {
-    "prom-client": "11.5.3"
-  }
+  "dependencies": {}
 }

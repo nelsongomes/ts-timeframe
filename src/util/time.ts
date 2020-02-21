@@ -1,4 +1,4 @@
-import { ITimelineUnit, TimelineTimestamp } from '../types/timeline-types';
+import { ITimelineUnit, TimelineTimestamp } from "../types/timeline-types";
 
 // #region delta functions
 

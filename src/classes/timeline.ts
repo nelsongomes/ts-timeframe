@@ -3,17 +3,15 @@ import {
   ITimelineSettings,
   ITimelineUnit,
   TimelineTimestamp
-} from '../types/timeline-types';
+} from "../types/timeline-types";
 import {
-  delta,
   getDeltaMicroseconds,
   getDeltaMilliseconds,
   getDeltaNanoseconds,
   getDeltaSeconds,
-  getDeltaUnitsReadable,
-  now
-} from '../util/time';
-import { TimelineEvent } from './timeline-event';
+  getDeltaUnitsReadable
+} from "../util/time";
+import { TimelineEvent } from "./timeline-event";
 
 // Timeline configuration
 const settings: ITimelineSettings = {
@@ -76,7 +74,7 @@ export class Timeline {
     const end = this.timeLineEvents[0].getEnd();
 
     if (!end) {
-      throw new Error('end() function was not called...');
+      throw new Error("end() function was not called...");
     }
 
     let duration: number;
@@ -95,7 +93,7 @@ export class Timeline {
         duration = getDeltaSeconds(start, end);
         break;
       default:
-        throw new Error('This should not happen');
+        throw new Error("This should not happen");
     }
 
     return { unit: this.unit, duration };
@@ -138,7 +136,7 @@ export class Timeline {
 
   public startEvent(labels: string[] = [], details?: any): TimelineEvent {
     if (this.timeLineEvents[0].getEnd()) {
-      throw new Error('Cannot start more events after timeline.end()');
+      throw new Error("Cannot start more events after timeline.end()");
     }
 
     const event: TimelineEvent = new TimelineEvent(labels, details);
@@ -154,7 +152,7 @@ export class Timeline {
    */
   public generateAnalyticInfo(): string {
     if (!this.timeLineEvents[0].getEnd()) {
-      throw new Error('end() function was not called...');
+      throw new Error("end() function was not called...");
     }
 
     let output = `***** Analytic Information for this Timeline *****\n`;
