@@ -25,8 +25,7 @@
     "start": "'ts-node' src/index.ts",
     "build": "tsc --pretty -p .",
     "build:watch": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/index.ts",
-    "update": "ncu -u && npm i",
-    "publish": "npm run build"
+    "update": "ncu -u && npm i"
   },
   "devDependencies": {
     "@types/jest": "25.1.3",
