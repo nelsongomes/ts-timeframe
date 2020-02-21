@@ -1,5 +1,5 @@
-import { ITimelineUnit, TimelineTimestamp } from '../types/timeline-types';
-import { delta, getDeltaUnits, now } from '../util/time';
+import { ITimelineUnit, TimelineTimestamp } from "../types/timeline-types";
+import { delta, getDeltaUnits, now } from "../util/time";
 
 export class TimelineEvent {
   private startTime: TimelineTimestamp;

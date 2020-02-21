@@ -1,8 +1,8 @@
 export enum ITimelineUnit {
-  Microseconds = 'µs',
-  Milliseconds = 'ms',
-  Nanoseconds = 'ns',
-  Seconds = 's'
+  Microseconds = "µs",
+  Milliseconds = "ms",
+  Nanoseconds = "ns",
+  Seconds = "s"
 }
 
 export interface ITimelineDuration {

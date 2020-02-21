@@ -1,2 +1,2 @@
-export { Timeline } from './timeline';
-export { TimelineEvent } from './timeline-event';
+export { Timeline } from "./timeline";
+export { TimelineEvent } from "./timeline-event";
