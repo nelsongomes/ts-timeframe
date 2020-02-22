@@ -2,7 +2,7 @@
   "name": "@nelsongomes/ts-timeframe",
   "author": "Nelson Gomes <nelson.ricardo.gomes@gmail.com>",
   "license": "ISC",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "Benchmark framework to collect code time metrics and excel in precision.",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
