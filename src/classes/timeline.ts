@@ -1,16 +1,9 @@
 import {
-  ITimelineDuration,
   ITimelineSettings,
   ITimelineUnit,
   TimelineTimestamp
 } from "../types/timeline-types";
-import {
-  getDeltaMicroseconds,
-  getDeltaMilliseconds,
-  getDeltaNanoseconds,
-  getDeltaSeconds,
-  getDeltaUnitsReadable
-} from "../util/time";
+import { getDeltaUnitsReadable, getDeltaUnits } from "../util/time";
 import { TimelineEvent } from "./timeline-event";
 
 // Timeline configuration
@@ -69,7 +62,7 @@ export class Timeline {
     this.executeSlownessCallbacks();
   }
 
-  public duration(): ITimelineDuration {
+  public getDuration(): number {
     const start = this.timeLineEvents[0].getStart();
     const end = this.timeLineEvents[0].getEnd();
 
@@ -77,26 +70,7 @@ export class Timeline {
       throw new Error("end() function was not called...");
     }
 
-    let duration: number;
-
-    switch (this.unit) {
-      case ITimelineUnit.Microseconds:
-        duration = getDeltaMicroseconds(start, end);
-        break;
-      case ITimelineUnit.Milliseconds:
-        duration = getDeltaMilliseconds(start, end);
-        break;
-      case ITimelineUnit.Nanoseconds:
-        duration = getDeltaNanoseconds(start, end);
-        break;
-      case ITimelineUnit.Seconds:
-        duration = getDeltaSeconds(start, end);
-        break;
-      default:
-        throw new Error("This should not happen");
-    }
-
-    return { unit: this.unit, duration };
+    return getDeltaUnits(start, end, this.unit);
   }
 
   /**
@@ -188,17 +162,22 @@ export class Timeline {
     let i = 0;
     for (const event of this.timeLineEvents) {
       if (i > 0) {
+        const end = this.timeLineEvents[i].getEnd();
         output += `#${i}: [started: ${getDeltaUnitsReadable(
           offset,
           this.timeLineEvents[i].getStart(),
           this.unit,
           this.precision
-        )}, duration: ${getDeltaUnitsReadable(
-          this.timeLineEvents[i].getStart(),
-          this.timeLineEvents[i].getEnd() as TimelineTimestamp,
-          this.unit,
-          this.precision
-        )}, labels: ${this.timeLineEvents[i].getLabels().join()}]\n`;
+        )}, duration: ${
+          end
+            ? getDeltaUnitsReadable(
+                this.timeLineEvents[i].getStart(),
+                end,
+                this.unit,
+                this.precision
+              )
+            : "N/A (didn't ended)"
+        }, labels: ${this.timeLineEvents[i].getLabels().join()}]\n`;
       }
       i++;
     }

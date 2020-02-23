@@ -44,8 +44,7 @@ describe("Timeline", () => {
         // terminate timeline
         timeline.end();
 
-        expect(timeline.duration().duration).toBeGreaterThan(0);
-        expect(timeline.duration().unit).toBe(ITimelineUnit.Milliseconds);
+        expect(timeline.getDuration()).toBeGreaterThan(0);
       });
 
       test("properly ended, with unit seconds", async () => {
@@ -57,8 +56,7 @@ describe("Timeline", () => {
         // terminate timeline
         timeline.end();
 
-        expect(timeline.duration().duration).toBeGreaterThan(0);
-        expect(timeline.duration().unit).toBe(ITimelineUnit.Seconds);
+        expect(timeline.getDuration()).toBeGreaterThan(0);
       });
 
       test("properly ended, with unit milliseconds", async () => {
@@ -72,8 +70,7 @@ describe("Timeline", () => {
         // terminate timeline
         timeline.end();
 
-        expect(timeline.duration().duration).toBeGreaterThan(50);
-        expect(timeline.duration().unit).toBe(ITimelineUnit.Milliseconds);
+        expect(timeline.getDuration()).toBeGreaterThan(0);
       });
 
       test("properly ended, with unit microseconds", async () => {
@@ -85,8 +82,7 @@ describe("Timeline", () => {
         // terminate timeline
         timeline.end();
 
-        expect(timeline.duration().duration).toBeGreaterThan(0);
-        expect(timeline.duration().unit).toBe(ITimelineUnit.Microseconds);
+        expect(timeline.getDuration()).toBeGreaterThan(0);
       });
 
       test("properly ended, with unit nanoseconds", async () => {
@@ -98,32 +94,14 @@ describe("Timeline", () => {
         // terminate timeline
         timeline.end();
 
-        expect(timeline.duration().duration).toBeGreaterThan(0);
-        expect(timeline.duration().unit).toBe(ITimelineUnit.Nanoseconds);
-      });
-
-      test("properly ended, with invalid unit", async () => {
-        const timeline = new Timeline("xxx" as ITimelineUnit);
-
-        expect(timeline instanceof Timeline).toBe(true);
-        expect(timeline.count()).toBe(0);
-
-        // terminate timeline
-        timeline.end();
-
-        try {
-          timeline.duration();
-          fail("Should have thrown an error");
-        } catch (e) {
-          expect((e as Error).message).toBe("This should not happen");
-        }
+        expect(timeline.getDuration()).toBeGreaterThan(0);
       });
 
       test("unproperly ended", async () => {
         const timeline = new Timeline();
 
         try {
-          timeline.duration();
+          timeline.getDuration();
           fail();
         } catch (error) {
           expect((error as Error).message).toBe(
@@ -256,6 +234,31 @@ describe("Timeline", () => {
       timeline.end();
 
       expect(spy).toBeCalledTimes(2);
+      expect(timeline.generateAnalyticInfo()).toMatchSnapshot();
+    });
+
+    test("we can still get a analytics even if an event does not get ended", async () => {
+      const spy = jest
+        .spyOn(time, "now")
+        .mockReturnValueOnce([0, 0]) // timeline constructor
+
+        .mockReturnValueOnce([0, 99999]) // startEvent()
+        .mockReturnValueOnce([0, 199999]) // endEvent
+
+        .mockReturnValueOnce([0, 99999]) // startEvent()
+
+        .mockReturnValueOnce([0, 299999]); // timeline end
+
+      const timeline = new Timeline(ITimelineUnit.Microseconds);
+      const event = timeline.startEvent();
+      event.end();
+
+      // not ended event
+      timeline.startEvent();
+
+      timeline.end();
+
+      expect(spy).toBeCalledTimes(5);
       expect(timeline.generateAnalyticInfo()).toMatchSnapshot();
     });
 

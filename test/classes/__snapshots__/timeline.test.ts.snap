@@ -23,6 +23,18 @@ Events duration: 100.00000 µs
 "
 `;
 
+exports[`Timeline should generate Timeline analytics we can still get a analytics even if an event does not get ended 1`] = `
+"***** Analytic Information for this Timeline *****
+Total events: 2
+Grand duration: 299.99900 µs
+Events duration: 100.00000 µs
+
+***** Event Detail for this Timeline *****
+#1: [started: 99.99900 µs, duration: 100.00000 µs, labels: ]
+#2: [started: 99.99900 µs, duration: N/A (didn't ended), labels: ]
+"
+`;
+
 exports[`Timeline should generate Timeline analytics with no events 1`] = `
 "***** Analytic Information for this Timeline *****
 Total events: 0
