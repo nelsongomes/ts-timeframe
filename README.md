@@ -1,4 +1,4 @@
-# Ts-timeframe.js v0.1.6
+# Ts-timeframe.js
 
 A reliable, lightweight, fine grained javascript library for high performance backend applications, built with Typescript and with 100% code coverage.
 It allows to measure individual events, but also to trigger callbacks according to defined rules.
