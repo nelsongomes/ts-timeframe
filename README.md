@@ -28,8 +28,13 @@ event.end();
 
 timeline.end();
 
-console.log(timeline.duration());
-// { unit: 'ms', duration: 0.140346 }
+console.log(timeline.getDuration());
+```
+
+Sample output (default is ms):
+
+```
+0.149413
 ```
 
 More complex usage:
@@ -55,21 +60,21 @@ try {
 timeline.end();
 
 // get timeline duration
-console.log(timeline.duration().duration);
+console.log(timeline.getDuration());
 console.log(timeline.generateAnalyticInfo());
 ```
 
 Sample output:
 
 ```
-143.081
+133.881
 ***** Analytic Information for this Timeline *****
 Total events: 1
-Grand duration: 143 µs
-Events duration: 25 µs
+Grand duration: 134 µs
+Events duration: 24 µs
 
 ***** Event Detail for this Timeline *****
-#1: [started: 91 µs, duration: 25 µs, labels: database,delete]
+#1: [started: 83 µs, duration: 24 µs, labels: database,delete]
 ```
 
 Changing defaults (callable once) and adding slowEvents rules:
@@ -135,7 +140,7 @@ event2.end();
 timeline.end();
 
 // get timeline duration
-console.log(timeline.duration().duration);
+console.log(timeline.getDuration());
 console.log(timeline.generateAnalyticInfo());
 ```
 
