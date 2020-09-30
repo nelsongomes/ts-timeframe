@@ -19,55 +19,30 @@ Simple usage example in typescript (constructor default is ms, 3 decimals):
 ```ts
 import { Timeline } from "@nelsongomes/ts-timeframe";
 
-// we start timeline
-const timeline = new Timeline();
+// we start timeline in microseconds, no decimals in precision
+const timeline = new Timeline(ITimelineUnit.Microseconds, 0);
 
-const event = timeline.startEvent();
-// we do something
-event.end();
+timeline.measureEvent(
+  async () => {
+    // await for something
+  },
+  ["database", "delete"],
+  {
+    server: "host1",
+    table: "customers",
+  }
+);
 
 timeline.end();
 
 console.log(timeline.getDuration());
+console.log(timeline.generateAnalyticInfo());
 ```
 
 Sample output (default is ms):
 
 ```
 0.149413
-```
-
-More complex usage:
-
-```ts
-import { ITimelineUnit, Timeline } from "@nelsongomes/ts-timeframe";
-
-// timeline in microseconds, no decimals in precision
-const timeline = new Timeline(ITimelineUnit.Microseconds, 0);
-
-// label the event and add info for the callback to receive
-const event = timeline.startEvent(["database", "delete"], {
-  server: "host1",
-  table: "customers"
-});
-
-try {
-  // we do something
-} finally {
-  event.end();
-}
-
-timeline.end();
-
-// get timeline duration
-console.log(timeline.getDuration());
-console.log(timeline.generateAnalyticInfo());
-```
-
-Sample output:
-
-```
-133.881
 ***** Analytic Information for this Timeline *****
 Total events: 1
 Grand duration: 134 µs
@@ -102,8 +77,8 @@ Timeline.init({
       rule: {
         duration: 10,
         matchAnylabel: ["database"],
-        message: "Database too slow"
-      }
+        message: "Database too slow",
+      },
     },
     {
       callback: () => {
@@ -112,27 +87,27 @@ Timeline.init({
       rule: {
         duration: 3000,
         matchAnylabel: ["api"],
-        message: "Api calls too slow"
-      }
-    }
-  ]
+        message: "Api calls too slow",
+      },
+    },
+  ],
 });
 
 // timeline in microseconds, no decimals in precision
 const timeline = new Timeline(ITimelineUnit.Microseconds, 0);
 
-// label the event and add info for the callback to receive
-const event1 = timeline.startEvent(["database", "delete"], {
-  server: "host1",
-  table: "customers",
-  query: "select abc"
-});
-
-try {
-  // we do something
-} finally {
-  event1.end();
-}
+timeline.measureEvent(
+  async () => {
+    // await for something
+  },
+  // label the event and add info for the callback to receive
+  ["database", "delete"],
+  {
+    server: "host1",
+    table: "customers",
+    query: "select abc",
+  }
+);
 
 const event2 = timeline.startEvent();
 event2.end();

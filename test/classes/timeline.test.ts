@@ -1,7 +1,7 @@
 import { Timeline } from "../../src/classes/timeline";
 import {
   ITimelineSettings,
-  ITimelineUnit
+  ITimelineUnit,
 } from "../../src/types/timeline-types";
 import * as time from "../../src/util/time";
 
@@ -15,8 +15,8 @@ const initParameters: ITimelineSettings = {
       rule: {
         duration: 100,
         matchAnylabel: ["database"],
-        message: "Database too slow"
-      }
+        message: "Database too slow",
+      },
     },
     {
       callback: jest.fn(() => {
@@ -25,11 +25,11 @@ const initParameters: ITimelineSettings = {
       rule: {
         duration: 3000,
         matchAnylabel: ["api"],
-        message: "Api calls too slow"
-      }
-    }
+        message: "Api calls too slow",
+      },
+    },
   ],
-  unit: ITimelineUnit.Microseconds
+  unit: ITimelineUnit.Microseconds,
 };
 
 describe("Timeline", () => {
@@ -141,7 +141,7 @@ describe("Timeline", () => {
       try {
         Timeline.init({
           precision: 5,
-          unit: ITimelineUnit.Microseconds
+          unit: ITimelineUnit.Microseconds,
         });
         fail();
       } catch (e) {
@@ -321,6 +321,33 @@ describe("Timeline", () => {
       timeline.end();
 
       expect(spy).toBeCalledTimes(6);
+      expect(timeline.generateAnalyticInfo()).toMatchSnapshot();
+    });
+    test("measure events wrapper", async () => {
+      const spy = jest
+        .spyOn(time, "now")
+        .mockReturnValueOnce([0, 0]) // timeline constructor
+
+        .mockReturnValueOnce([0, 0]) // startEvent()
+        .mockReturnValueOnce([0, 999999999]) // endEvent
+
+        .mockReturnValueOnce([1, 299999]); // timeline end
+
+      const timeline = new Timeline(ITimelineUnit.Milliseconds);
+      const event = timeline.measureEvent(
+        async () => {
+          await time.delay(1);
+        },
+        ["database", "delete"],
+        {
+          server: "host1",
+          table: "customers",
+        }
+      );
+
+      timeline.end();
+
+      expect(spy).toBeCalledTimes(4);
       expect(timeline.generateAnalyticInfo()).toMatchSnapshot();
     });
   });

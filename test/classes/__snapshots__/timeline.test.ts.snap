@@ -1,5 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Timeline should generate Timeline analytics measure events wrapper 1`] = `
+"***** Analytic Information for this Timeline *****
+Total events: 1
+Grand duration: 1000.30000 ms
+Events duration: 1000.00000 ms
+
+***** Event Detail for this Timeline *****
+#1: [started: 0.00000 ms, duration: 1000.00000 ms, labels: database,delete]
+"
+`;
+
 exports[`Timeline should generate Timeline analytics multiple events 1`] = `
 "***** Analytic Information for this Timeline *****
 Total events: 2
