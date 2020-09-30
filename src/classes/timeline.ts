@@ -1,7 +1,7 @@
 import {
   ITimelineSettings,
   ITimelineUnit,
-  TimelineTimestamp
+  TimelineTimestamp,
 } from "../types/timeline-types";
 import { getDeltaUnitsReadable, getDeltaUnits } from "../util/time";
 import { TimelineEvent } from "./timeline-event";
@@ -9,7 +9,7 @@ import { TimelineEvent } from "./timeline-event";
 // Timeline configuration
 const settings: ITimelineSettings = {
   precision: 3,
-  unit: ITimelineUnit.Milliseconds
+  unit: ITimelineUnit.Milliseconds,
 };
 
 export class Timeline {
@@ -121,6 +121,21 @@ export class Timeline {
     return event;
   }
 
+  public measureEvent(method: Function, labels: string[] = [], details?: any) {
+    let event;
+
+    try {
+      event = this.startEvent(labels, details);
+
+      // call our function to measure
+      method();
+    } finally {
+      if (event) {
+        event.end();
+      }
+    }
+  }
+
   /**
    * Returns a string with analytic information for this timeline
    */
@@ -209,14 +224,14 @@ export class Timeline {
             slowEvent.rule.duration > 0 &&
             eventDuration &&
             eventDuration >= slowEvent.rule.duration &&
-            slowEvent.rule.matchAnylabel.some(member => {
+            slowEvent.rule.matchAnylabel.some((member) => {
               return currentEvent.getLabels().includes(member);
             })
           ) {
             slowEvent.callback(null, {
               ...slowEvent.rule,
               details: currentEvent.getDetails(),
-              unit: settings.unit
+              unit: settings.unit,
             });
           }
         }
