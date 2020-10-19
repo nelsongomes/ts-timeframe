@@ -1,6 +1,6 @@
 # Ts-timeframe.js
 
-A reliable, lightweight, fine grained javascript library for high performance backend applications, built with Typescript and with 100% code coverage.
+A reliable, lightweight, fine grained javascript library for high performance backend applications, built with Typescript and with 100% code coverage. Supports measurement in second, millisecond, microsecond and nanoseconds units.
 It allows to measure individual events, but also to trigger callbacks according to defined rules.
 
 This module **is not suitable to use on the browser**, (at least for now) because it depends on process.hrtime.
@@ -22,16 +22,9 @@ import { Timeline } from "@nelsongomes/ts-timeframe";
 // we start timeline in microseconds, no decimals in precision
 const timeline = new Timeline(ITimelineUnit.Microseconds, 0);
 
-timeline.measureEvent(
-  async () => {
-    // await for something
-  },
-  ["database", "delete"],
-  {
-    server: "host1",
-    table: "customers",
-  }
-);
+timeline.measureEvent(async () => {
+  // await for something
+});
 
 timeline.end();
 
@@ -49,7 +42,7 @@ Grand duration: 134 µs
 Events duration: 24 µs
 
 ***** Event Detail for this Timeline *****
-#1: [started: 83 µs, duration: 24 µs, labels: database,delete]
+#1: [started: 83 µs, duration: 24 µs]
 ```
 
 Changing defaults (callable once) and adding slowEvents rules:
