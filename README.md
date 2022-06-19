@@ -11,13 +11,34 @@ It was created because I was seeing too many code using Date ms to measure perfo
 Using npm:
 
 ```shell
-$ npm i --save @nelsongomes/ts-timeframe
+npm i --save ts-timeframe
+```
+
+Simple usage example measuring in miliseconds:
+
+```ts
+import { getDeltaMilliseconds, now, delay } from "ts-timeframe";
+
+// we obtain start time with full precision
+const start = now();
+
+// do something
+await delay(1);
+
+// you can also use functions getDeltaUnits, getDeltaSeconds, getDeltaMicroseconds and getDeltaNanoseconds
+console.log(getDeltaMilliseconds(start, now()));
+```
+
+Sample output:
+
+```shell
+0.149413
 ```
 
 Simple usage example in typescript (constructor default is ms, 3 decimals):
 
 ```ts
-import { Timeline } from "@nelsongomes/ts-timeframe";
+import { Timeline } from "ts-timeframe";
 
 // we start timeline in microseconds, no decimals in precision
 const timeline = new Timeline(ITimelineUnit.Microseconds, 0);
@@ -34,7 +55,7 @@ console.log(timeline.generateAnalyticInfo());
 
 Sample output (default is ms):
 
-```
+```shell
 0.149413
 ***** Analytic Information for this Timeline *****
 Total events: 1
@@ -48,7 +69,7 @@ Events duration: 24 µs
 Changing defaults (callable once) and adding slowEvents rules:
 
 ```ts
-import { ITimelineUnit, Timeline } from "@nelsongomes/ts-timeframe";
+import { ITimelineUnit, Timeline } from "ts-timeframe";
 
 Timeline.init({
   unit: ITimelineUnit.Microseconds, // default unit for constructor class
@@ -114,7 +135,7 @@ console.log(timeline.generateAnalyticInfo());
 
 Sample output:
 
-```
+```shell
 Database too slow: details {"server":"host1","table":"customers","query":"select abc"} took more than 10µs
 135.109
 ***** Analytic Information for this Timeline *****
