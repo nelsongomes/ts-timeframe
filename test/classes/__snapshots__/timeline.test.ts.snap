@@ -1,4 +1,4 @@
-// Jest Snapshot v1, https://goo.gl/fbAQLP
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
 
 exports[`Timeline should generate Timeline analytics measure events wrapper 1`] = `
 "***** Analytic Information for this Timeline *****

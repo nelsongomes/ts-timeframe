@@ -42,7 +42,7 @@ export class Timeline {
    */
   constructor(
     defaultUnit: ITimelineUnit = settings.unit,
-    defaultPrecision: number = settings.precision
+    defaultPrecision: number = settings.precision,
   ) {
     // copy settings
     this.unit = defaultUnit;
@@ -151,13 +151,13 @@ export class Timeline {
       this.timeLineEvents[0].getStart(),
       this.timeLineEvents[0].getEnd() as TimelineTimestamp,
       this.unit,
-      this.precision
+      this.precision,
     )}\n`;
     output += `Events duration: ${getDeltaUnitsReadable(
       [0, 0],
       this.sumEventsDuration(),
       this.unit,
-      this.precision
+      this.precision,
     )}\n`;
 
     if (this.count()) {
@@ -175,21 +175,21 @@ export class Timeline {
     let output = `\n***** Event Detail for this Timeline *****\n`;
 
     let i = 0;
-    for (const event of this.timeLineEvents) {
+    for (const _event of this.timeLineEvents) {
       if (i > 0) {
         const end = this.timeLineEvents[i].getEnd();
         output += `#${i}: [started: ${getDeltaUnitsReadable(
           offset,
           this.timeLineEvents[i].getStart(),
           this.unit,
-          this.precision
+          this.precision,
         )}, duration: ${
           end
             ? getDeltaUnitsReadable(
                 this.timeLineEvents[i].getStart(),
                 end,
                 this.unit,
-                this.precision
+                this.precision,
               )
             : "N/A (didn't ended)"
         }, labels: ${this.timeLineEvents[i].getLabels().join()}]\n`;
