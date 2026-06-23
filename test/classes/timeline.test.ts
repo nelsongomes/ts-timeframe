@@ -105,7 +105,7 @@ describe("Timeline", () => {
           fail();
         } catch (error) {
           expect((error as Error).message).toBe(
-            "end() function was not called..."
+            "end() function was not called...",
           );
         }
       });
@@ -119,7 +119,7 @@ describe("Timeline", () => {
           fail();
         } catch (error) {
           expect((error as Error).message).toBe(
-            "Cannot start more events after timeline.end()"
+            "Cannot start more events after timeline.end()",
           );
         }
       });
@@ -144,7 +144,7 @@ describe("Timeline", () => {
           unit: ITimelineUnit.Microseconds,
         });
         fail();
-      } catch (e) {
+      } catch (_e) {
         // check init parameters unchanged
         expect(Timeline.getDefaults()).toMatchObject(initParameters);
       }
@@ -166,11 +166,11 @@ describe("Timeline", () => {
       timeline.end();
 
       if (initParameters.slowEvents && initParameters.slowEvents[0]) {
-        expect(initParameters.slowEvents[0].callback).toBeCalledTimes(0);
+        expect(initParameters.slowEvents[0].callback).toHaveBeenCalledTimes(0);
       } else {
         fail();
       }
-      expect(spy).toBeCalledTimes(2);
+      expect(spy).toHaveBeenCalledTimes(2);
     });
 
     test("slow event, not matching label", async () => {
@@ -188,11 +188,11 @@ describe("Timeline", () => {
       timeline.end();
 
       if (initParameters.slowEvents && initParameters.slowEvents[0]) {
-        expect(initParameters.slowEvents[0].callback).toBeCalledTimes(0);
+        expect(initParameters.slowEvents[0].callback).toHaveBeenCalledTimes(0);
       } else {
         fail();
       }
-      expect(spy).toBeCalledTimes(4);
+      expect(spy).toHaveBeenCalledTimes(4);
     });
 
     test("slow event, matching label", async () => {
@@ -210,11 +210,11 @@ describe("Timeline", () => {
       timeline.end();
 
       if (initParameters.slowEvents && initParameters.slowEvents[0]) {
-        expect(initParameters.slowEvents[0].callback).toBeCalledTimes(1);
+        expect(initParameters.slowEvents[0].callback).toHaveBeenCalledTimes(1);
       } else {
         fail();
       }
-      expect(spy).toBeCalledTimes(4);
+      expect(spy).toHaveBeenCalledTimes(4);
     });
   });
 
@@ -233,7 +233,7 @@ describe("Timeline", () => {
       const timeline = new Timeline();
       timeline.end();
 
-      expect(spy).toBeCalledTimes(2);
+      expect(spy).toHaveBeenCalledTimes(2);
       expect(timeline.generateAnalyticInfo()).toMatchSnapshot();
     });
 
@@ -258,7 +258,7 @@ describe("Timeline", () => {
 
       timeline.end();
 
-      expect(spy).toBeCalledTimes(5);
+      expect(spy).toHaveBeenCalledTimes(5);
       expect(timeline.generateAnalyticInfo()).toMatchSnapshot();
     });
 
@@ -267,13 +267,13 @@ describe("Timeline", () => {
 
       const timeline = new Timeline();
 
-      expect(spy).toBeCalledTimes(1);
+      expect(spy).toHaveBeenCalledTimes(1);
       try {
         expect(timeline.generateAnalyticInfo()).toMatchSnapshot();
         fail();
       } catch (error) {
         expect((error as Error).message).toBe(
-          "end() function was not called..."
+          "end() function was not called...",
         );
       }
     });
@@ -294,7 +294,7 @@ describe("Timeline", () => {
 
       timeline.end();
 
-      expect(spy).toBeCalledTimes(4);
+      expect(spy).toHaveBeenCalledTimes(4);
       expect(timeline.generateAnalyticInfo()).toMatchSnapshot();
     });
 
@@ -320,7 +320,7 @@ describe("Timeline", () => {
 
       timeline.end();
 
-      expect(spy).toBeCalledTimes(6);
+      expect(spy).toHaveBeenCalledTimes(6);
       expect(timeline.generateAnalyticInfo()).toMatchSnapshot();
     });
     test("measure events wrapper", async () => {
@@ -334,7 +334,7 @@ describe("Timeline", () => {
         .mockReturnValueOnce([1, 299999]); // timeline end
 
       const timeline = new Timeline(ITimelineUnit.Milliseconds);
-      const event = timeline.measureEvent(
+      const _event = timeline.measureEvent(
         async () => {
           await time.delay(1);
         },
@@ -342,12 +342,12 @@ describe("Timeline", () => {
         {
           server: "host1",
           table: "customers",
-        }
+        },
       );
 
       timeline.end();
 
-      expect(spy).toBeCalledTimes(4);
+      expect(spy).toHaveBeenCalledTimes(4);
       expect(timeline.generateAnalyticInfo()).toMatchSnapshot();
     });
   });

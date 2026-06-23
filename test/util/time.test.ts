@@ -13,13 +13,13 @@ describe("Time functions", () => {
 
   test("should getDeltaUnitsReadable()", async () => {
     expect(
-      getDeltaUnitsReadable([0, 0], [1, 1], ITimelineUnit.Seconds, 3)
+      getDeltaUnitsReadable([0, 0], [1, 1], ITimelineUnit.Seconds, 3),
     ).toEqual("1.000 s");
     expect(
-      getDeltaUnitsReadable([0, 0], [1, 1], ITimelineUnit.Milliseconds, 0)
+      getDeltaUnitsReadable([0, 0], [1, 1], ITimelineUnit.Milliseconds, 0),
     ).toEqual("1000 ms");
     expect(
-      getDeltaUnitsReadable([0, 0], [1, 1], ITimelineUnit.Nanoseconds, 0)
+      getDeltaUnitsReadable([0, 0], [1, 1], ITimelineUnit.Nanoseconds, 0),
     ).toEqual("1000000001 ns");
   });
 });

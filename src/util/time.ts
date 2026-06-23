@@ -13,7 +13,7 @@ export function getDeltaUnitsReadable(
   start: TimelineTimestamp,
   end: TimelineTimestamp,
   unit: ITimelineUnit,
-  decimals: number
+  decimals: number,
 ): string {
   return getDeltaUnits(start, end, unit).toFixed(decimals) + ` ${unit}`;
 }
@@ -21,7 +21,7 @@ export function getDeltaUnitsReadable(
 export function getDeltaUnits(
   start: TimelineTimestamp,
   end: TimelineTimestamp,
-  unit: ITimelineUnit
+  unit: ITimelineUnit,
 ): number {
   switch (unit) {
     case ITimelineUnit.Seconds:
@@ -42,7 +42,7 @@ export function getDeltaUnits(
  */
 export function getDeltaSeconds(
   start: TimelineTimestamp,
-  end: TimelineTimestamp
+  end: TimelineTimestamp,
 ): number {
   const diff = delta(start, end);
   return diff[0] + diff[1] / 1e9;
@@ -55,7 +55,7 @@ export function getDeltaSeconds(
  */
 export function getDeltaMilliseconds(
   start: TimelineTimestamp,
-  end: TimelineTimestamp
+  end: TimelineTimestamp,
 ): number {
   const diff = delta(start, end);
   return diff[0] * 1e3 + diff[1] / 1e6;
@@ -68,7 +68,7 @@ export function getDeltaMilliseconds(
  */
 export function getDeltaMicroseconds(
   start: TimelineTimestamp,
-  end: TimelineTimestamp
+  end: TimelineTimestamp,
 ): number {
   const diff = delta(start, end);
   return diff[0] * 1e6 + diff[1] / 1e3;
@@ -81,7 +81,7 @@ export function getDeltaMicroseconds(
  */
 export function getDeltaNanoseconds(
   start: TimelineTimestamp,
-  end: TimelineTimestamp
+  end: TimelineTimestamp,
 ): number {
   const diff = delta(start, end);
   return diff[0] * 1e9 + diff[1];
@@ -94,7 +94,7 @@ export function getDeltaNanoseconds(
  */
 export function delta(
   start: TimelineTimestamp,
-  end: TimelineTimestamp
+  end: TimelineTimestamp,
 ): TimelineTimestamp {
   const result: TimelineTimestamp = [end[0] - start[0], end[1] - start[1]];
 
@@ -120,7 +120,7 @@ export function now(): TimelineTimestamp {
  * @param milliseconds
  */
 export async function delay(milliseconds: number): Promise<void> {
-  return new Promise<void>(resolve => {
+  return new Promise<void>((resolve) => {
     setTimeout(resolve, milliseconds);
   });
 }
